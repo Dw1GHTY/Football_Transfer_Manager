@@ -1,11 +1,14 @@
 //glavna strana
 import { getAllNodes, deleteAllNodes, addPlayer } from "../../lib/neo4j"
+import AddDataButton from "./components/AddDataButton"
 
 import ClubsButton from "./components/ClubsButton"
-import PlayersMarketButton from "./components/PlayersMarketButton"
+import TransferMarketButton from "./components/TransferMarketButton"
+
 
 //read
 //const data = await getAllNodes();
+//console.log(data)
 
 //delete
 //deleteAllNodes();
@@ -17,8 +20,10 @@ import PlayersMarketButton from "./components/PlayersMarketButton"
 export default function MainPage() {
   return (
     <div class='flex flex-row min-h-screen dark:bg-slate-400'>
-      <div className="main-page-buttons-div">
+      <div class='my-20 ml-10'>
         <ClubsButton />
+        <TransferMarketButton />
+        <AddDataButton />
       </div>
     </div>
   )

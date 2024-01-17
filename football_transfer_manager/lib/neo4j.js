@@ -28,20 +28,47 @@ export async function deleteAllNodes() {
     await session.run('MATCH (n) DETACH DELETE n')
 }
 
-export async function addPlayer(name, country, age, value) {
+export async function addPlayer(name, surname, age, country, position, attacking, strength, defense, club, contract, value) {
     try {
         const result = await session.run(
-            'CREATE (:Player {name: $name, country: $country, age: $age, value: $value})',
-            { name, country, age, value }
+            'CREATE (:Player {name: $name, surname: $surname, age: $age, country: $age, position: $position, attacking: $attacking, strngth: $strength, defense: $defense, club: $club, contract:$contract, value:$value})',
+            { name, surname, age, country, position, attacking, strength, defense, club, contract, value }
         );
-
-        console.log(`Player ${name} added successfully.`);
+        alert(`${name} ${surname} added to database!`)
     } catch (error) {
-        console.error('Error adding player:', error.message);
+        console.error('Error adding player: ', error.message);
     } finally {
         await session.close();
     }
 }
 
+export async function addManager(name, surname, age, country, club, contract, salary) {
+    try {
+        const result = await session.run(
+            'CREATE (:Manager {name: $name, surname: $surname, age: $age, country: $country, club: $club, contract: $contract, salary: $salary})',
+            { name, surname, age, country, club, contract, salary }
+        )
+        alert(`${name} ${surname} added to database!`)
+    } catch (error) {
+        console.error('Error adding manager: ', error.message);
+    }
+    finally {
+        await session.close()
+    }
+}
 
+export async function addCoach(name, surname, age, country, club, category, experience, contract, salary) {
+    try {
+        const result = await session.run(
+            'CREATE (:Manager {name: $name, surname: $surname, age: $age, country: $country, club: $club, category: $category, experience: $experience, contract: $contract, salary: $salary})',
+            { name, surname, age, country, club, category, experience, contract, salary }
+        )
+        alert(`${name} ${surname} added to database!`)
+    } catch (error) {
+        console.error('Error adding manager: ', error.message);
+    }
+    finally {
+        await session.close()
+    }
+}
 
