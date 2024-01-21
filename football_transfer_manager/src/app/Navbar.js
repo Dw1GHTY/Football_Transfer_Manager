@@ -27,12 +27,30 @@ function Help() {
     )
 }
 
+function CurrentTeamInfo() {
+    return (
+        <div class='flex flex-row ml-auto pt-5 pr-2 pl-2 text-white'>
+            <div class='mr-4'>
+                Selected Club:
+            </div>
+            <div class='mr-4'>
+                ClubName        {/*Ovde cu morati da uzimam ime trenutno izabgranog kluba*/}
+            </div>
+            <div class='mr-4'>
+                ClubFunds       {/*Ovde cu morati da uzimam trenutan npvac izabranog kluba*/}
+            </div>
+        </div>
+    )
+}
+
 export default function Navbar() {
     return (
         <div class='flex flex-row basis-1/4 h-16 dark:bg-slate-800'>
             <Logo />
             <Home />
             <Help />
+            <CurrentTeamInfo />
         </div>
     )
 }
+
