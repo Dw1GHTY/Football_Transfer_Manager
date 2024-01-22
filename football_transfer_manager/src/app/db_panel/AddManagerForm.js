@@ -2,15 +2,6 @@
 import { useForm } from "react-hook-form";
 import { addManager } from "../../../lib/neo4j";
 
-{/*
-data.name,
-data.surname,
-data.age,
-data.country,
-data.club,
-data.contract,
-data.salary,
-*/}
 export default function AddManagerForm() {
 
     const { register, handleSubmit } = useForm();
@@ -19,7 +10,7 @@ export default function AddManagerForm() {
 
         <div class='flex flex-col mx-10 bg-slate-400'>
             <div>
-                <h1>Add Manager</h1>
+                <h1 class='font-semibold text-lg text-slate-900'>Add Manager</h1>
             </div>
             <form onSubmit={handleSubmit((data) => {
 

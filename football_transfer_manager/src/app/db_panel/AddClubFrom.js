@@ -1,4 +1,4 @@
-import { addClub } from "../../../lib/neo4j";
+import { addClub, clubExists } from "../../../lib/neo4j";
 import { useForm } from "react-hook-form"
 
 
@@ -8,7 +8,7 @@ export default function AddClubForm() {
     return (
         <div class='flex flex-col mx-10 bg-slate-400'>
             <div>
-                <h1>Add Club</h1>
+                <h1 class='font-semibold text-lg text-slate-900'>Add Club</h1>
             </div>
             <form onSubmit={handleSubmit((data) => {
 

@@ -12,12 +12,13 @@ const session = driver.session()
 //#endregion
 
 //#region provera prisutnosti kredencijala
-console.log("URI:", process.env.NEO4J_URI);
+{/*console.log("URI:", process.env.NEO4J_URI);
 console.log("Username:", process.env.NEO4J_USERNAME);
-console.log("Password:", process.env.NEO4J_PASSWORD);
+console.log("Password:", process.env.NEO4J_PASSWORD);*/}
 //#endregion
 
 
+//#region UTILITY_FUNCTIONS
 export async function read(cypher, params = {}) {
     // 1. Open a session
     const session = driver.session()
@@ -36,7 +37,6 @@ export async function read(cypher, params = {}) {
         await session.close()
     }
 }
-
 export async function write(cypher, params = {}) {
     // 1. Open a session
     const session = driver.session()
@@ -55,9 +55,11 @@ export async function write(cypher, params = {}) {
         await session.close()
     }
 }
+//#endregion
+
 
 export async function getAllPlayers() {
-    const cypher = 'MATCH (p:Player) RETURN p.name AS name, p.surname AS surname';
+    const cypher = 'MATCH (p:Player) RETURN p';
 
     try {
         const players = await read(cypher);
@@ -67,10 +69,18 @@ export async function getAllPlayers() {
         throw error;
     }
 }
-
 export async function addPlayer(name, surname, age, country, position, attacking, strength, defense, club, contract, value) {
+
+    const doesClubExist = await clubExists(club);
+
+    if (!doesClubExist) {
+        alert(`Club ${club} does not exist`);
+        return;
+    }
+
     const cypher = `
-        CREATE (:Player {
+        MATCH (c:Club {name: $club})
+        CREATE (p:Player {
             name: $name,
             surname: $surname,
             age: $age,
@@ -83,6 +93,8 @@ export async function addPlayer(name, surname, age, country, position, attacking
             contract: $contract,
             value: $value
         })
+        CREATE (p)-[:PLAYS_FOR]->(c)
+        CREATE (c)-[:EMPLOYS]->(p)
     `;
 
     const params = {
@@ -108,10 +120,30 @@ export async function addPlayer(name, surname, age, country, position, attacking
     }
 }
 
+export async function getAllManagers() {
+    const cypher = 'MATCH (m:Manager) RETURN m';
+
+    try {
+        const managers = await read(cypher);
+        return managers;
+    } catch (error) {
+        console.error('Error getting all managers:', error.message);
+        throw error;
+    }
+}
 
 export async function addManager(name, surname, age, country, club, contract, salary) {
+
+    const doesClubExist = await clubExists(club);
+
+    if (!doesClubExist) {
+        alert(`Club ${club} does not exist`);
+        return;
+    }
+
     const cypher = `
-        CREATE (:Manager {
+        MATCH (c:Club {name: $club})
+        CREATE (m:Manager {
             name: $name,
             surname: $surname,
             age: $age,
@@ -120,6 +152,8 @@ export async function addManager(name, surname, age, country, club, contract, sa
             contract: $contract,
             salary: $salary
         })
+        CREATE (m)-[:WORKS_FOR]->(c)
+        CREATE (c)-[:EMPLOYS]->(m)
     `;
 
     const params = {
@@ -140,20 +174,42 @@ export async function addManager(name, surname, age, country, club, contract, sa
         throw error;
     }
 }
+export async function getAllCoaches() {
+    const cypher = 'MATCH (c:Coach) RETURN c';
+
+    try {
+        const coaches = await read(cypher);
+        return coaches;
+    } catch (error) {
+        console.error('Error getting all coaches:', error.message);
+        throw error;
+    }
+}
 
 export async function addCoach(name, surname, age, country, club, category, experience, contract, salary) {
+
+    const doesClubExist = await clubExists(club);
+
+    if (!doesClubExist) {
+        alert(`Club ${club} does not exist`);
+        return;
+    }
+
     const cypher = `
-        CREATE (:Coach {
+        MATCH (c:Club {name: $club})
+        CREATE (coach:Coach {
             name: $name,
             surname: $surname,
             age: $age,
             country: $country,
-            club: $club,
             category: $category,
             experience: $experience,
+            club: $club,
             contract: $contract,
             salary: $salary
         })
+        CREATE (coach)-[:WORKS_AT]->(c)
+        CREATE (c)-[:EMPLOYS]->(coach)
     `;
 
     const params = {
@@ -177,7 +233,17 @@ export async function addCoach(name, surname, age, country, club, category, expe
     }
 }
 
+
+//#region 
 export async function addClub(name, country, league, funds) {
+
+    const doesClubExist = await clubExists(name);
+
+    if (doesClubExist) {
+        alert(`Club ${name} already exists`);
+        return;
+    }
+
     const cypher = `
         CREATE (:Club {
             name: $name,
@@ -202,3 +268,29 @@ export async function addClub(name, country, league, funds) {
         throw error;
     }
 }
+export async function clubExists(name) {
+    const cypher = 'MATCH (c:Club {name: $name}) RETURN count(c) as count';
+    const params = { name };
+
+    try {
+        const result = await read(cypher, params);
+        const count = result[0].count;
+        console.log(count);
+        return count > 0;
+    } catch (error) {
+        console.error('Error checking club existence:', error.message);
+        throw error;
+    }
+}
+export async function getAllClubs() {
+    const cypher = 'MATCH (c:Club) RETURN c';
+
+    try {
+        const clubs = await read(cypher);
+        return clubs;
+    } catch (error) {
+        console.error('Error getting all clubs:', error.message);
+        throw error;
+    }
+}
+//#endregion

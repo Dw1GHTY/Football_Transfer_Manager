@@ -9,7 +9,7 @@ export default function AddCoachForm() {
     return (
         <div class='flex flex-col mx-10 bg-slate-400'>
             <div>
-                <h1>Add Coach</h1>
+                <h1 class='font-semibold text-lg text-slate-900'>Add Coach</h1>
             </div>
             <form onSubmit={handleSubmit((data) => {
 

@@ -45,7 +45,7 @@ function CurrentTeamInfo() {
 
 export default function Navbar() {
     return (
-        <div class='flex flex-row basis-1/4 h-16 dark:bg-slate-800'>
+        <div class=' sticky top-0 z-50 flex flex-row basis-1/4 h-16 dark:bg-slate-800'>
             <Logo />
             <Home />
             <Help />

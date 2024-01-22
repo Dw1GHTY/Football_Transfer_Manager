@@ -2,7 +2,6 @@ import { addPlayer } from "../../../lib/neo4j";
 import { useForm } from "react-hook-form";
 
 
-//name, surname, age, country, position, attacking, strength, defense, club, contract, value
 export default function AddPlayerForm() {
 
 
@@ -10,8 +9,8 @@ export default function AddPlayerForm() {
 
     return (
         <div class='flex flex-col mx-10 bg-slate-400'>
-            <div>
-                <h1>Add Player</h1>
+            <div class='place-content-center'>
+                <h1 class='font-semibold text-lg text-slate-900'>Add Player</h1>
             </div>
             <form onSubmit={handleSubmit(async (data) => {
 
