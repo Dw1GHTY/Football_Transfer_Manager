@@ -14,7 +14,7 @@ function Club() {
             funds: properties.funds
         };
     });
-    console.log(clubs);
+    //console.log(clubs);
     //console.log(allClubs);
 
     return (
@@ -23,7 +23,7 @@ function Club() {
                 clubs.map((club, index) => (
                     <div key={index} class=" dark:bg-slate-900 mx-10 my-6 max-w-md rounded overflow-hidden shadow-lg hover:cursor-pointer hover:bg-slate-600">
                         <div class="px-6 py-4">
-                            <div class="font-bold text-sky-400 text-xl mb-2">{club.name}</div>    {/*ovde name kluba*/}
+                            <div class="font-bold text-sky-400 text-xl mb-2">{club.name}</div>
                         </div>
                         <div class="px-6 pt-4 pb-2">
                             <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{club.country}</span>

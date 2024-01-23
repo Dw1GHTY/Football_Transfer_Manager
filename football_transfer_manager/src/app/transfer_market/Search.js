@@ -1,3 +1,4 @@
+
 export default function Search() {
     return (
         <div class='mx-6 my-3'>
