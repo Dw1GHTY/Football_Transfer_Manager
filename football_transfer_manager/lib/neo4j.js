@@ -294,3 +294,8 @@ export async function getAllClubs() {
     }
 }
 //#endregion
+
+
+export async function makeRecomendation(searchParameter) {
+    const cypher = '';
+}

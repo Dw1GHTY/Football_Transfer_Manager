@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Navbar from './Navbar'
+import Navbar from './components/Navbar'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,13 +12,12 @@ export const metadata = {
 }
 
 //RootLayout mora da ima <html> i <body tagove>
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, props }) {
   return (
     <html lang="en">
       <body className={inter.className}>
         <div class='container mx-auto'>
-          <Navbar />
-          {children}  {/* div u page.js */}
+          {children}  {/*ostatak cele aplikacije */}    {/*zelim da imam globalno stanje/Context*/}
         </div>
       </body>
     </html>

@@ -22,7 +22,7 @@ export default function PlayersTable(props) {
     //console.log(allPlayers);
 
     return (
-        <div class='max-w-screen-xl mx-6 dark:bg-slate-900 rounded'>
+        <div class='max-w-screen-xl mx-6 dark:bg-slate-900 rounded my-4'>
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 rounded">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>

@@ -1,19 +1,22 @@
 
-import { getAllClubs } from "../../../lib/neo4j"
+
+import { getAllClubs } from "../../../lib/neo4j";
 import RenderClubs from "./RenderClubs";
 
 
 
 const allClubs = await getAllClubs();
-export default function Clubs() {
+
+export default function Clubs(props) {
 
     {/*prop koji ce da skladisti podatake iz <RenderClubs /> ||| ne moze funkcija jer trazi da bude srvrska komponenta*/ }
-
-    const RenderClubsData = async (data) => {
+    const getRenderClubsComponentData = async (data) => {
         "use server"
-        //console.log(data);
+        //console.log("Clubs---> " + data);
+        props.getDataForParent(data);
     }
 
+    {/*funkcija koja salje podatke \app page.js*/ }
     const clubs = allClubs.map(club => {
         const properties = club.c.properties;
         return {
@@ -35,7 +38,7 @@ export default function Clubs() {
                             clubFunds={club.funds}
                             clubCountry={club.country}
                             clubLeague={club.league}
-                            getDataForParent={RenderClubsData} />
+                            getDataForParent={getRenderClubsComponentData} />
                     ))
                 }
             </div>
