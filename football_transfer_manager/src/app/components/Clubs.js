@@ -57,9 +57,9 @@ const Clubs = ({ allClubs, club }) => {
                 {chosenClub.length > 0 && (
                     <div class='flex items-center justify-center min-h-fit min-w-fit bg-gray-900 text-white'>
                         <div class='flex flex-col items-center p-8 bg-gray-800'>
+
                             <h1 class='text-2xl font-bold mb-4'>Currently selected team:</h1>
                             <p>Selected Club: {chosenClub[0]}</p>
-                            <p>Funds: {chosenClub[1]}</p>
                         </div>
                     </div>
                 )}

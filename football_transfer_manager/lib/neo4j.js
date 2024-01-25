@@ -20,38 +20,38 @@ console.log("Password:", process.env.NEO4J_PASSWORD);*/}
 
 //#region UTILITY_FUNCTIONS
 export async function read(cypher, params = {}) {
-    // 1. Open a session
+
     const session = driver.session()
 
     try {
-        // 2. Execute a Cypher Statement
+
         const res = await session.executeRead(tx => tx.run(cypher, params))
 
-        // 3. Process the Results
+
         const values = res.records.map(record => record.toObject())
 
         return values
     }
     finally {
-        // 4. Close the session 
+
         await session.close()
     }
 }
 export async function write(cypher, params = {}) {
-    // 1. Open a session
+
     const session = driver.session()
 
     try {
-        // 2. Execute a Cypher Statement
+
         const res = await session.executeWrite(tx => tx.run(cypher, params))
 
-        // 3. Process the Results
+
         const values = res.records.map(record => record.toObject())
 
         return values
     }
     finally {
-        // 4. Close the session 
+
         await session.close()
     }
 }
@@ -151,7 +151,7 @@ export async function findPerson(person, name) {
     }
 }
 
-export async function buyPlayer(clubName, playerName, playerSurname) {
+export async function buyPlayer(clubName, playerName, playerSurname, newFunds) {
     try {
         const buyPlayerQuery = `
             MATCH (club:Club {name: $clubName})
@@ -164,11 +164,11 @@ export async function buyPlayer(clubName, playerName, playerSurname) {
             CREATE (club)-[:EMPLOYS]->(player)
             CREATE (player)-[:PLAYS_FOR]->(club)
             WITH club, player
-            SET club.funds = toInteger(club.funds) - toInteger(player.value)
-            RETURN club.funds
+            SET club.funds = $newFunds
+            SET player.club = $clubName
         `;
 
-        const updatedFundsResult = await write(buyPlayerQuery, { clubName, playerName, playerSurname });
+        const updatedFundsResult = await write(buyPlayerQuery, { clubName, playerName, playerSurname, newFunds });
         const updatedFunds = updatedFundsResult[0]?.club?.funds;
 
         if (updatedFunds !== undefined) {

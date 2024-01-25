@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { buyPlayer } from '../../../lib/neo4j';
 
-const PlayersTable = ({ players, func }) => {
+const PlayersTable = ({ players, func, fetchData }) => {
 
     const [playersState, setPlayersState] = useState([]);
 
@@ -29,8 +29,13 @@ const PlayersTable = ({ players, func }) => {
         };
     });
 
+    async function updateTable() {
+        await fetchData();
+    }
+
     const handlePurchase = (index) => {
         console.log(index);
+
         let clubInfo = [];
         clubInfo = func();
 
@@ -38,15 +43,22 @@ const PlayersTable = ({ players, func }) => {
             const wantedPlayer = playersState.find((player, playerIndex) => playerIndex === index);
             console.log(wantedPlayer.p.properties.value);
 
+
             if (parseInt(clubInfo[1]) >= parseInt(wantedPlayer.p.properties.value) && clubInfo[0] !== wantedPlayer.p.properties.club) {
                 //const updatedPlayers = [...playersState];
                 //updatedPlayers.splice(index, 1);
                 //setPlayersState(updatedPlayers);
+
+                let price = clubInfo[1] - wantedPlayer.p.properties.value;
+                price.toString();
+
                 buyPlayer(
                     clubInfo[0],
                     wantedPlayer.p.properties.name,
                     wantedPlayer.p.properties.surname,
+                    price
                 );
+                updateTable();
             } else {
                 alert("Broke");
             }
@@ -56,6 +68,7 @@ const PlayersTable = ({ players, func }) => {
         }
 
     };
+
 
     return (
         <>

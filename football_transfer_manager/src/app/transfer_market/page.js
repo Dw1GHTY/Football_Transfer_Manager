@@ -50,6 +50,7 @@ const Page = () => {
 
     useEffect(() => {
         fetchData();
+
     }, []);
 
     async function getPerson(name) {
@@ -76,7 +77,6 @@ const Page = () => {
         <>
 
             <button onClick={test}>klikni me</button>
-
 
             <div>
                 <div className='flex flex-col w-full min-h-screen dark:bg-slate-400'>
@@ -135,12 +135,10 @@ const Page = () => {
                             </label>
                         </div>
                     </div>
-
                     <Search func={getPerson} />
-
-                    {selectedType === 'Player' && <PlayersTable players={allPlayers} func={getClubInfo} />}
-                    {selectedType === 'Manager' && <ManagersTable managers={allManagers} func={getClubInfo} />}
-                    {selectedType === 'Coach' && <CoachesTable coaches={allCoaches} func={getClubInfo} />}
+                    {selectedType === 'Player' && <PlayersTable players={allPlayers} func={getClubInfo} fetchData={fetchData} />}
+                    {selectedType === 'Manager' && <ManagersTable managers={allManagers} func={getClubInfo} fetchData={fetchData} />}
+                    {selectedType === 'Coach' && <CoachesTable coaches={allCoaches} func={getClubInfo} fetchData={fetchData} />}
                 </div>
             </div>
         </>

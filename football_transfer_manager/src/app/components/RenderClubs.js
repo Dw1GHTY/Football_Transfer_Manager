@@ -5,12 +5,13 @@ import { useState } from "react";
 
 export default function RenderClubs(props) {
 
-    {/*zelim da prenesem sve parametre kluba da bih ga pronasao u bazi preko neo*/ }
-    {/*ovi state-ovi treba da se upare sa kontekstom da bi mogao da se menja*/ }
+
     const [clubName, setName] = useState('');
     const [clubFunds, setFunds] = useState('');
     const [clubCountry, setCountry] = useState('');
     const [clubLeague, setLeague] = useState('');
+
+    console.log(props.clubName, props.clubFunds, props.clubCountry, props.clubData);
 
     async function getClubData(name, funds, country, league) {
         setName(name);
@@ -25,7 +26,7 @@ export default function RenderClubs(props) {
 
     return (
         <div
-            key={props.index}
+            //key={props.index}
             class=" dark:bg-slate-900 mx-10 my-6 max-w-md rounded overflow-hidden shadow-lg hover:cursor-pointer hover:bg-slate-600"
             onClick={async () => {
                 await getClubData(
@@ -33,8 +34,7 @@ export default function RenderClubs(props) {
                     props.clubFunds,
                     props.clubCountry,
                     props.clubLeague)
-            }
-            }>
+            }}>
             <div class="px-6 py-4">
                 <div class="font-bold text-sky-400 text-xl mb-2">{props.clubName}</div>
             </div>
