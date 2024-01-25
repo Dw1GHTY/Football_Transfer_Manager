@@ -16,7 +16,6 @@ export default function Clubs(props) {
         props.getDataForParent(data);
     }
 
-    {/*funkcija koja salje podatke \app page.js*/ }
     const clubs = allClubs.map(club => {
         const properties = club.c.properties;
         return {
@@ -28,8 +27,8 @@ export default function Clubs(props) {
     });
 
     return (
-        <div class="flex flex-col w-full min-h-screen dark:bg-slate-400">
-            <div>
+        <div class="flex flex-col w-full min-h-fit dark:bg-slate-400">
+            <div class="grid grid-cols-3">
                 {
                     clubs.map((club, index) => (
                         <RenderClubs

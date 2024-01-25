@@ -12,7 +12,7 @@ export default function Search() {
         const newSearchTerm = event.target.value;
         setSearchTerm(newSearchTerm);
 
-        const timerId = setTimeout(() => {
+        setTimeout(() => {
             // Pozovi funkciju search s trenutnim terminom pretrage
             console.log(newSearchTerm);
             makeRecomendation(newSearchTerm);

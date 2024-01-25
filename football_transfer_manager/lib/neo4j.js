@@ -119,6 +119,17 @@ export async function addPlayer(name, surname, age, country, position, attacking
         throw error;
     }
 }
+export async function deletePlayer(name, surname, age) {
+    const cypher = 'MATCH (p:Player {name: $name, surname: $surname, age: $age}) DETACH DELETE p';
+    const params = { name, surname, age };
+
+    try {
+        await write(cypher, params);
+        console.log(`Igrač "${name} ${surname}, ${age} godina" je uspješno obrisan.`);
+    } catch (error) {
+        console.error('Greška prilikom brisanja igrača:', error);
+    }
+}
 
 export async function getAllManagers() {
     const cypher = 'MATCH (m:Manager) RETURN m';
@@ -174,6 +185,18 @@ export async function addManager(name, surname, age, country, club, contract, sa
         throw error;
     }
 }
+export async function deleteManager(name, surname, age) {
+    const cypher = 'MATCH (m:Manager {name: $name, surname: $surname, age: $age}) DETACH DELETE m';
+    const params = { name, surname, age };
+
+    try {
+        await write(cypher, params);
+        console.log(`Menadžer "${name} ${surname}, ${age} godina" je uspješno obrisan.`);
+    } catch (error) {
+        console.error('Greška prilikom brisanja menadžera:', error);
+    }
+}
+
 export async function getAllCoaches() {
     const cypher = 'MATCH (c:Coach) RETURN c';
 
@@ -185,7 +208,6 @@ export async function getAllCoaches() {
         throw error;
     }
 }
-
 export async function addCoach(name, surname, age, country, club, category, experience, contract, salary) {
 
     const doesClubExist = await clubExists(club);
@@ -232,7 +254,17 @@ export async function addCoach(name, surname, age, country, club, category, expe
         throw error;
     }
 }
+export async function deleteCoach(name, surname, age) {
+    const cypher = 'MATCH (c:Coach {name: $name, surname: $surname, age: $age}) DETACH DELETE c';
+    const params = { name, surname, age };
 
+    try {
+        await write(cypher, params);
+        console.log(`Trener "${name} ${surname}, ${age} godina" je uspješno obrisan.`);
+    } catch (error) {
+        console.error('Greška prilikom brisanja trenera:', error);
+    }
+}
 
 //#region 
 export async function addClub(name, country, league, funds) {

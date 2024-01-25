@@ -17,7 +17,7 @@ export default function RootLayout({ children, props }) {
     <html lang="en">
       <body className={inter.className}>
         <div class='container mx-auto'>
-          {children}  {/*ostatak cele aplikacije */}    {/*zelim da imam globalno stanje/Context*/}
+          {children}
         </div>
       </body>
     </html>

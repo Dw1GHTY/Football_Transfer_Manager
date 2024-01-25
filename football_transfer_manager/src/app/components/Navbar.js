@@ -42,20 +42,5 @@ function Logo() {
     )
 }
 
-function Home() {
-    return (
-        <div class='m ml-5 mr-5 pt-5 pl-2 pr-2 dark:text-white hover:bg-sky-700 cursor-pointer rounded-lg'>
-            <Link href='/'>Home</Link>
-        </div>
-    )
-}
-
-function Help() {
-    return (
-        <div class='m ml-5 mr-5 pt-5 pl-2 pr-2 dark:text-white hover:bg-sky-700 cursor-pointer rounded-lg'>
-            <Link href='/help'>Help</Link>
-        </div>
-    )
-}
 
 

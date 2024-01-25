@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar"
 import AddDataButton from "./components/AddDataButton"
 import ClubsButton from "./components/ClubsButton"
 import TransferMarketButton from "./components/TransferMarketButton"
+import App from "next/app"
 
 
 let storedData = null;
@@ -19,15 +20,7 @@ export default function MainPage() {
   return (
     <div>
       <Navbar />
-      <div class='grid grid-cols-2 min-h-screen dark:bg-slate-400'>
-        <div class='my-20 ml-10'>
-          {/* <ClubsButton /> */}
-          <TransferMarketButton />
-          <AddDataButton />
-        </div>
-        <div class='flex items-end'>
-          <Clubs getDataForParent={getClubsComponentData} />  {/*uzimanje podataka iz Clubs*/}
-        </div>
+      <div class='flex flex-col min-h-screen dark:bg-slate-400'>
       </div>
     </div>
   )
