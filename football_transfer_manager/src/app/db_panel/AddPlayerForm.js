@@ -81,9 +81,7 @@ export default function AddPlayerForm() {
                         Add Player
                     </button>
                 </div>
-
             </form>
-
         </div >
     )
 }

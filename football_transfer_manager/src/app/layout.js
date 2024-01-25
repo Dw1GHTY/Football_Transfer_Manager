@@ -1,3 +1,4 @@
+
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from './components/Navbar'
@@ -17,7 +18,7 @@ export default function RootLayout({ children, props }) {
     <html lang="en">
       <body className={inter.className}>
         <div class='container mx-auto'>
-          {children}
+          {children}  {/*ostatak cele aplikacije */}    {/*zelim da imam globalno stanje/Context*/}
         </div>
       </body>
     </html>

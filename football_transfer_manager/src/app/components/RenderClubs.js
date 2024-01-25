@@ -18,11 +18,9 @@ export default function RenderClubs(props) {
         setCountry(country);
         setLeague(league);
 
+        props.clubData(name, funds, country, league);
 
-        await props.getDataForParent([clubName, clubCountry, clubLeague, clubFunds]);
-
-
-        //console.log(name, league, country, funds); {/*sve se vidi*/ }
+        //console.log(clubName, clubLeague, clubCountry, clubFunds); {/*sve se vidi*/ }
     }
 
     return (

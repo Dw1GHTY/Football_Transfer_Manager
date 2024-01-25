@@ -119,17 +119,70 @@ export async function addPlayer(name, surname, age, country, position, attacking
         throw error;
     }
 }
-export async function deletePlayer(name, surname, age) {
-    const cypher = 'MATCH (p:Player {name: $name, surname: $surname, age: $age}) DETACH DELETE p';
-    const params = { name, surname, age };
+export async function findPerson(person, name) {
 
-    try {
-        await write(cypher, params);
-        console.log(`Igrač "${name} ${surname}, ${age} godina" je uspješno obrisan.`);
-    } catch (error) {
-        console.error('Greška prilikom brisanja igrača:', error);
+    let pom = '';
+
+    if (person === 'Player') {
+        pom = 'p';
+    } else if (person === 'Manager') {
+        pom = 'm';
+    } else if (person === 'Coach') {
+        pom = 'c';
+    }
+
+    if (person === 'Player' || person === 'Manager' || person === 'Coach') {
+        const cypher = `
+      MATCH (${pom}:${person})
+      WHERE toLower(${pom}.name) CONTAINS toLower($name) OR toLower(${pom}.surname) CONTAINS toLower($name)
+      RETURN ${pom}
+    `;
+        const params = { person, name };
+
+        try {
+            const result = await read(cypher, params);
+            const persons = result;
+            console.log(persons);
+            return result;
+        } catch (error) {
+            console.error('Error finding player:', error);
+            throw error;
+        }
     }
 }
+
+export async function buyPlayer(clubName, playerName, playerSurname) {
+    try {
+        const buyPlayerQuery = `
+            MATCH (club:Club {name: $clubName})
+            MATCH (player:Player {name: $playerName, surname: $playerSurname})
+            OPTIONAL MATCH (player)-[rel1:PLAYS_FOR]->(formerClub:Club)
+            DELETE rel1
+            WITH player, formerClub, club
+            OPTIONAL MATCH (formerClub)-[rel2:EMPLOYS]->(player)
+            DELETE rel2
+            CREATE (club)-[:EMPLOYS]->(player)
+            CREATE (player)-[:PLAYS_FOR]->(club)
+            WITH club, player
+            SET club.funds = toInteger(club.funds) - toInteger(player.value)
+            RETURN club.funds
+        `;
+
+        const updatedFundsResult = await write(buyPlayerQuery, { clubName, playerName, playerSurname });
+        const updatedFunds = updatedFundsResult[0]?.club?.funds;
+
+        if (updatedFunds !== undefined) {
+            alert('Successful');
+            console.log(`Transaction successful. Club '${clubName}' has funds: ${updatedFunds}`);
+        } else {
+            //console.log('Club or player not found.');
+        }
+    } catch (error) {
+        console.error('Error in buyPlayer:', error);
+    }
+}
+
+
 
 export async function getAllManagers() {
     const cypher = 'MATCH (m:Manager) RETURN m';
@@ -185,18 +238,6 @@ export async function addManager(name, surname, age, country, club, contract, sa
         throw error;
     }
 }
-export async function deleteManager(name, surname, age) {
-    const cypher = 'MATCH (m:Manager {name: $name, surname: $surname, age: $age}) DETACH DELETE m';
-    const params = { name, surname, age };
-
-    try {
-        await write(cypher, params);
-        console.log(`Menadžer "${name} ${surname}, ${age} godina" je uspješno obrisan.`);
-    } catch (error) {
-        console.error('Greška prilikom brisanja menadžera:', error);
-    }
-}
-
 export async function getAllCoaches() {
     const cypher = 'MATCH (c:Coach) RETURN c';
 
@@ -208,6 +249,7 @@ export async function getAllCoaches() {
         throw error;
     }
 }
+
 export async function addCoach(name, surname, age, country, club, category, experience, contract, salary) {
 
     const doesClubExist = await clubExists(club);
@@ -254,17 +296,7 @@ export async function addCoach(name, surname, age, country, club, category, expe
         throw error;
     }
 }
-export async function deleteCoach(name, surname, age) {
-    const cypher = 'MATCH (c:Coach {name: $name, surname: $surname, age: $age}) DETACH DELETE c';
-    const params = { name, surname, age };
 
-    try {
-        await write(cypher, params);
-        console.log(`Trener "${name} ${surname}, ${age} godina" je uspješno obrisan.`);
-    } catch (error) {
-        console.error('Greška prilikom brisanja trenera:', error);
-    }
-}
 
 //#region 
 export async function addClub(name, country, league, funds) {
@@ -307,7 +339,6 @@ export async function clubExists(name) {
     try {
         const result = await read(cypher, params);
         const count = result[0].count;
-        console.log(count);
         return count > 0;
     } catch (error) {
         console.error('Error checking club existence:', error.message);
@@ -319,6 +350,7 @@ export async function getAllClubs() {
 
     try {
         const clubs = await read(cypher);
+        console.log(clubs);
         return clubs;
     } catch (error) {
         console.error('Error getting all clubs:', error.message);
